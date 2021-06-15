@@ -106,6 +106,33 @@
                     submitButtonStatus.addAttribute("disabled", true);
                 }
             });
+            // Konfirmasi captcha dengan benar, menambahkan event handler onChange
+            document.getElementById("inputCaptcha").addEventListener("change", function(){
+                const inputCaptcha = document.getElementById("inputCaptcha").value;
+                const submitButtonStatus = document.getElementById("submitButton");
+                if (inputCaptcha == "PRNU"){
+                    submitButtonStatus.removeAttribute("disabled");
+                }
+            });
+            // Kondisi untuk captcha ketika salah maka tidak bisa button submit ditekan
+            document.getElementById("formDataDiri").addEventListener("submit", function(){
+                const inputCaptcha = document.getElementById("inputCaptcha").value;
+                if (inputCaptcha == "PRNU"){
+                    event.preventDefault();
+                    alert("Selamat! Captcha Anda lolos :D");
+                } else{
+                    alert("Captcha Anda belum tepat :(")
+                    submitButtonStatus.addAttribute("disabled", true);
+                }
+            });
+            // Implementasi jika mengcopy pada sebuah field
+            document.getElementById("inputCopy").addEventListener("copy", function(){
+                alert("Anda telah men-copy sesuatu...");
+            });
+            // implementasi jika mencopy pada sebuah field
+            document.getElementById("inputPaste").addEventListener("paste", function(){
+                alert("Anda telah mem-paste sebuah teks...");
+            });
 
         </script>
     </body>
