@@ -1,5 +1,6 @@
 const UNCOMPLETED_LIST_TODO_ID = "todos";
 const COMPLETED_LIST_TODO_ID = "completed-todos";
+// berfungsi sebagai object key yang akan digunakan untuk menyimpan id dari masing-masing task pada objek HTMLElement.
 const TODO_ITEMID = "itemId";
 
 const addTodo = () => {
@@ -49,25 +50,27 @@ const createButton = (buttonTypeClass, eventListener) => {
     button.addEventListener("click", (event) => {
         eventListener(event);
     });
-    
+
     return button;
 }
 
-const addTaskToCompleted = (taskElement) => {
+function addTaskToCompleted(taskElement /* HTMLELement */) {
+    const listCompleted = document.getElementById(COMPLETED_LIST_TODO_ID);
     const taskTitle = taskElement.querySelector(".inner > h2").innerText;
     const taskTimestamp = taskElement.querySelector(".inner > p").innerText;
-    const listCompleted = document.getElementById(COMPLETED_LIST_TODO_ID);
 
     const newTodo = makeTodo(taskTitle, taskTimestamp, true);
+    // Berfungsi untuk memperbarui status (isCompleted) dari masing-masing objek TODO
     const todo = findTodo(taskElement[TODO_ITEMID]);
     todo.isCompleted = true;
+    // Update lagi identifier yang ada pada elemen TODO yang baru
     newTodo[TODO_ITEMID] = todo.id;
 
     listCompleted.append(newTodo);
     taskElement.remove();
 
     updateDataToStorage();
-}
+ }
 
 const createCheckButton = () => {
     return createButton("check-button", (event) => {
@@ -78,7 +81,7 @@ const createCheckButton = () => {
 const removeTaskFromCompleted = (taskElement) => {
     const todoPosition = findTodoIndex(taskElement[TODO_ITEMID]);
     todos.splice(todoPosition, 1);
-    
+// Menghapus objek tersebut dengan menggunakan fungsi splice().
     taskElement.remove();
     updateDataToStorage();
 }
@@ -97,6 +100,7 @@ const undoTaskFromCompleted = (taskElement) => {
     const newTodo = makeTodo(taskTitle, taskTimestamp, false);
 
     const todo = findTodo(taskElement[TODO_ITEMID]);
+    // Mengubah statusnya menjadi not completed
     todo.isCompleted = false;
     newTodo[TODO_ITEMID] = todo.id;
 
